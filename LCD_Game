@@ -311,6 +311,13 @@ void loop(){
   delay(50);
 }
 
+COMPONENTS :
+
+Arduino UNO	    - 1
+LCD [ 16*2 ]	    - 1
+resistor [ 220 Ω ]  - 1
+Push Buttons 	    - 2
+
 CIRCUIT Connections :
 
 https://drive.google.com/file/d/1CsBtWYH4qo2cWhrwqyzCR8DwQIrbfYbK/view?usp=sharing
