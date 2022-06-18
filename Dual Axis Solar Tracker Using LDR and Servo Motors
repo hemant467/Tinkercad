@@ -1,0 +1,100 @@
+Dual Axis Solar Tracker Using LDR and Servo Motors
+
+//CODE :
+
+#include <Servo.h> 
+
+Servo horizontal; // horizontal servo
+int servoh = 180; //Servo Horizontal is set to 180 degrees
+int servohLimitHigh = 175; //Servo Horizontal Limit when signal value is High is set to 175 degrees
+int servohLimitLow = 5; //Servo Horizontal Limit when signal value is Low is set to 5 degrees
+// 65 degrees MAX
+
+Servo vertical; // vertical servo
+int servov = 45; //Servo Vertical is set to 45 degrees
+int servovLimitHigh = 60; //Servo Vertical Limit when signal value is High is set to 60 degrees
+int servovLimitLow = 1; //Servo Vertical Limit when signal value is Low is set to 1 degrees
+
+// LDR pin connections
+// name = analogpin;
+int ldrlt = A0; //LDR top left - BOTTOM LEFT 
+int ldrrt = A3; //LDR top rigt - BOTTOM RIGHT
+int ldrld = A1; //LDR down left - TOP LEFT
+int ldrrd = A3; //ldr down rigt - TOP RIGHT
+
+void setup()
+{
+horizontal.attach(9); 
+vertical.attach(10);
+horizontal.write(180); //Servo rotation for horizontal is set to 180 degrees
+vertical.write(45);	   //Servo rotation for vertical is set to 45 degrees
+delay(2500);		   //delay 2.5 Sec
+}
+void loop() 		   //read the value for the analog pin of the Arduino connected to LDRs 
+{
+  // calculate the average of vertical and horizontal rotations
+int lt = analogRead(ldrlt); // top left
+int rt = analogRead(ldrrt); // top right
+int ld = analogRead(ldrld); // down left
+int rd = analogRead(ldrrd); // down right
+int dtime = 10; int tol = 90; // dtime=diffirence time, tol=toleransi
+int avt = (lt + rt) / 2; // average value top
+int avd = (ld + rd) / 2; // average value down
+int avl = (lt + ld) / 2; // average value left
+int avr = (rt + rd) / 2; // average value right
+int dvert = avt - avd; // check the diffirence value of up and down
+int dhoriz = avl - avr;// check the diffirence value of left and right
+
+  //if & if-else statements are defined to loop the program & calculate the average values of the respective LDR’s
+  //this helps to change the degree of the servo motor for more effective
+if (-1*tol > dvert || dvert > tol) //dvert = difference in Vertical
+ {
+ if (avt > avd)//avt = average value of top is greater than avd = average value of down
+ {
+ servov = ++servov;
+ if (servov > servovLimitHigh)
+ {
+   servov = servovLimitHigh;}
+ }
+ else if (avt < avd)//avt = average value of top is less than avd = average value of down
+ {
+   servov= --servov;
+ if (servov < servovLimitLow)
+ {
+   servov = servovLimitLow;}
+ }
+ vertical.write(servov);
+ }
+if (-1*tol > dhoriz || dhoriz > tol) // check if the diffirence is in the tolerance else change horizontal angle
+ {
+ if (avl > avr)//avl = average value of left is greater than avr = average value of right
+ {
+ servoh = --servoh;
+ if (servoh < servohLimitLow)
+ {
+ servoh = servohLimitLow;
+ }
+ }
+ else if (avl < avr)//avl = average value of left is less than avr = average value of right
+ {
+ servoh = ++servoh;
+ if (servoh > servohLimitHigh)
+ {
+ servoh = servohLimitHigh;
+ }
+ }
+ else if (avl = avr)
+ {
+ delay(5000);//delay 5 Sec
+ }
+ horizontal.write(servoh);
+ }
+ 
+ delay(dtime);//delay time
+ 
+}
+
+CIRCUIT Connections :
+https://drive.google.com/file/d/1mqEj7iIGWO3yZNA7CWLLsF5v0JTjqZRC/view?usp=sharing
+
+Resistors 10kΩ = 4
