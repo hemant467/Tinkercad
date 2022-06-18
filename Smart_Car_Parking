@@ -1,0 +1,104 @@
+Smart Car Parking System
+
+CODE :
+
+
+#include <Servo.h>
+#include<LiquidCrystal.h>
+LiquidCrystal lcd(12,11,5,4,3,2);
+Servo myservo;
+
+#define ServoM    7  
+#define Exit      9 
+#define In        8 
+#define Pwr  	  6        
+#define Gnd  	  10      
+#define BarLow    90 
+#define BarUp     177
+#define CAPACITY  10   
+
+void setup()
+{
+  myservo.attach(ServoM);   
+  lcd.begin(16,2);
+  lcd.print("Space left for");
+  pinMode(Gnd, OUTPUT);
+  pinMode(Pwr, OUTPUT);
+  pinMode(Exit, INPUT);        
+  pinMode(In, INPUT);          
+  digitalWrite(Gnd, LOW);
+  digitalWrite(Pwr, HIGH);
+  myservo.write(BarLow);       
+//  delay(1000);
+}
+
+int  Available= 10;             
+
+//================================================================
+void loop()
+{
+if (Available == 1)
+{
+  lcd.clear();
+lcd.setCursor(1,0);
+lcd.print("Space left for");
+lcd.setCursor(0,1);  
+lcd.print(Available);
+lcd.print(" car");
+}else{
+if (Available >= 1)
+{
+lcd.clear();
+lcd.setCursor(1,0);
+lcd.print("Space left for");
+lcd.setCursor(0,1);  
+lcd.print(Available);
+lcd.print(" cars");
+}
+  else
+  {
+  lcd.clear();
+    lcd.setCursor(1,0);
+    lcd.print("Sorry!");
+    lcd.setCursor(0,1);
+    lcd.print("No place left!");
+}
+}
+
+
+if(digitalRead(In)==1)
+{
+  if(Available != 0)
+  {
+    Available--;
+    myservo.write(BarUp);
+    delay(3000);
+    myservo.write(BarLow);
+    }
+  }
+if(digitalRead(Exit)==1)
+{
+  if(Available != CAPACITY)
+  {
+    Available++;
+    myservo.write(BarUp);
+    delay(3000);
+    myservo.write(BarLow);
+    }
+}
+  delay(20);
+}
+
+
+COMPONENTS :
+
+Arduino UNO - 1
+LCD [ 16*2 ] - 1
+Micro Servo - 1
+Resistor [ 1 kΩ ] - 3
+Potentiometer [ 250 kΩ ] - 1
+Push Buttons - 2
+
+Circuit Connections :
+
+https://drive.google.com/file/d/1fwc6TxZPn8DE1V-7XTaj8AmF_ob1Btwd/view?usp=sharing
