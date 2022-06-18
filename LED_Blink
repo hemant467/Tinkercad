@@ -1,0 +1,33 @@
+//LED Blink
+
+CODE :
+
+void setup()
+{
+  pinMode(LED_BUILTIN, OUTPUT);
+}
+
+void loop()
+{
+  // turn the LED on (HIGH is the voltage level)
+  digitalWrite(LED_BUILTIN, HIGH);
+  delay(1000); // Wait for 1000 millisecond(s)
+  // turn the LED off by making the voltage LOW
+  digitalWrite(LED_BUILTIN, LOW);
+  delay(1000); // Wait for 1000 millisecond(s)
+}
+
+COMPONENTS :
+
+Arduino UNO         - 1
+Resistor [ 220 Ω ]  - 1
+LED                 - 1
+Piezo               - 1
+
+For confirmation
+Light Bulb          - 1
+DC Motor            - 1
+
+Circuit Connections :
+
+https://drive.google.com/file/d/1HsIv0UFO7VB0o5n2_mwIQAncD0A3OQXP/view?usp=sharing
