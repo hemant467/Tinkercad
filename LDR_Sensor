@@ -1,0 +1,58 @@
+LDR Sensor [ LDR - Light Dependent Resistors ]
+
+CODE :
+
+#define GREEN 2
+#define BLUE 3
+#define RED 4
+#define Buzzer 5
+#define Sensor A0
+void setup()
+{
+  for(int i=2;i<6;i++)
+  pinMode(i, OUTPUT);
+  Serial.begin(9600);
+}
+
+void loop()
+{
+  for(int i=2;i<6;i++)
+  digitalWrite(i,LOW);
+  
+  status_indicator();
+}
+void status_indicator()
+{
+  int sensor_ln=analogRead(A0);
+  Serial.println(sensor_ln);
+  if(sensor_ln>=400)
+  {
+  digitalWrite(RED, HIGH);
+  digitalWrite(Buzzer,HIGH);
+  }
+  else if(sensor_ln>=160)
+  {
+    digitalWrite(BLUE,HIGH);
+  }
+  else
+  {
+    digitalWrite(GREEN,HIGH);
+  }
+  delay(10); // Wait for 10 millisecond(s)
+}
+
+COMPONENTS :
+
+Arduino UNO            - 1
+Breadboard             - 1
+Resistor [ 220 Ω ]     - 3
+Resistor [ 4.70 kΩ ]   - 1
+Photoresistor          - 1
+Piezo [ Buzzer ]       - 1
+LED                    - 3
+
+CIRCUIT Connection :
+
+https://drive.google.com/file/d/1jlsMkCpLbzf_Sqx5nB_1hK3w-kSLkFCM/view?usp=sharing
+
+https://drive.google.com/file/d/1ZB3vAyySmGFY7Cw8K35GON0g1A67GJ1G/view?usp=sharing
