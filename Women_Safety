@@ -1,0 +1,80 @@
+Women Safety Device using Arduino Tinkerkad
+
+COMPONENTS :
+->Arduino UNO - 2
+->Bread Board - 2
+->LCD [ 16*2 ] - 1
+->Push Buttons - 2
+->Piezo [ Buzzer ] - 1
+->Potentiometer- 1
+->LED's - 2
+->Resistors 
+      1 kΩ   - 3
+      10 kΩ  - 2
+      220 Ω  - 1
+
+CODE :
+
+int redbutton=3,greenbutton=2;
+int redLED=5,greenLED=4;
+int redstate=0,greenstate=0;
+int buzzer=8;
+int status;
+int msg=9;
+int greencount=0;
+#define count 3
+void setup()
+{
+  pinMode(redbutton,INPUT);
+  pinMode(greenbutton,INPUT);
+  pinMode(redLED,OUTPUT);
+  pinMode(greenLED,OUTPUT);
+  attachInterrupt(digitalPinToInterrupt(redbutton),Danger,RISING);
+  attachInterrupt(digitalPinToInterrupt(greenbutton),Safe,RISING); 
+  Serial.begin(9600);
+  pinMode(msg,OUTPUT);
+  digitalWrite(greenLED,HIGH);
+}
+
+void loop()
+{
+ if(status)
+ {
+  tone(buzzer,100,10);
+  digitalWrite(msg,HIGH);
+ }
+ else
+ {
+  digitalWrite(buzzer,LOW);
+  digitalWrite(msg,LOW);
+ }
+}
+void Danger()
+{
+ digitalWrite(redLED,HIGH);
+ digitalWrite(greenLED,LOW);
+ status=1;
+ 
+  
+}
+void Safe()
+{
+  greencount=greencount+1;
+  
+  if(greencount==count)
+  {
+  digitalWrite(greenLED,HIGH);
+  digitalWrite(redLED,LOW);
+  status=0;
+  greencount=0;
+  }
+  
+}
+
+
+CIRCUIT DESIGN :
+
+https://drive.google.com/file/d/1F9Tc3_yN6n-reOP_x0EZozeqaXEuuGbZ/view?usp=sharing
+
+Women status I'm safe  : https://drive.google.com/file/d/1iIBARUk3fqPrviFTPpJgG8PTZt-qMJ3R/view?usp=sharing
+Women status In danger : https://drive.google.com/file/d/1jXqIqcSOyVvL1H0OW00pHE1a6R_36QFo/view?usp=sharing
